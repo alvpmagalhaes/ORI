@@ -86,6 +86,7 @@ int main () {
                 printf("Telefone: ");
                 scanf("%[^\n]s", registro.telefone);
                 getchar();
+                
                 registro.chave = i;
 
                 // Salva indices dos registros
@@ -125,7 +126,7 @@ int main () {
             // Varredura do arquivo
             printf("\n");
             while(fread(&registro, sizeof registro, 1, arquivo) > 0)
-                printf("Chave: %d\n Primeiro nome: %s\n Ultimo nome: %s\n Endereco: %s\n Cidade: %s\n Estado: %s\n CEP: %s\n Telefone: %s\n\n", 
+                printf("\nChave: %d\n Primeiro nome: %s\n Ultimo nome: %s\n Endereco: %s\n Cidade: %s\n Estado: %s\n CEP: %s\n Telefone: %s\n\n", 
                 registro.chave, registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
         }
         fclose(registros);
