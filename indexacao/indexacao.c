@@ -35,6 +35,9 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
+    int chave_aux;
+    int posicao_aux;
+    char cidade_aux[40];
     int i=0,max;
 
     //Funcao de verificacao de existencia e quantidade de registros
@@ -44,12 +47,15 @@ int main () {
         perror("Erro ao abrir indices.bin");
     else {
         printf("entrooou\n");
-        /*while (fread(&indice[i].chave, sizeof indice[i].chave, 1, indices) > 0 &&
-        fread(&indice[i].posicao, sizeof indice[i].posicao, 1, indices) > 0 &&
-        fread(indice[i].cidade, sizeof indice[i].cidade, 1, indices) > 0){
+        while (fread(&chave_aux, sizeof chave_aux, 1, indices) > 0 &&
+        fread(&posicao_aux, sizeof posicao_aux, 1, indices) > 0 &&
+        fread(cidade_aux, sizeof cidade_aux, 1, indices) > 0){
+            indice[i].chave = chave_aux;
+            indice[i].posicao = posicao_aux;
+            strcpy (indice[i].cidade, cidade_aux);
             printf("chave: %d\ncidade: %s\nposicao: %d\n\n", indice[i].chave, indice[i].cidade, indice[i].posicao);
             i++;
-        }*/
+        }
         
     }
 
