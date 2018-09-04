@@ -14,8 +14,8 @@ struct reg {
     char primeironome[40];
     char endereco[200];
     char cidade[40];
-    char estado[2];
-    char cep[9];
+    char estado[3];
+    char cep[10];
     char telefone[15];
 };
 
@@ -35,7 +35,7 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
-    int i=0,max;
+    int i=0,max, qt_registros;
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -43,20 +43,17 @@ int main () {
     if(indices == NULL)
         perror("Erro ao abrir indices.bin");
     else {
-        printf("entrooou\n");
-        while (fread(&indice[i].chave, sizeof indice[i].chave, 1, indices) > 0 &&
-        fread(&indice[i].posicao, sizeof indice[i].posicao, 1, indices) > 0 &&
-        fread(indice[i].cidade, sizeof indice[i].cidade, 1, indices) > 0){
+        while (fread(&indice[i], sizeof indice[i], 1, indices) > 0 ){
             printf("chave: %d\ncidade: %s\nposicao: %d\n\n", indice[i].chave, indice[i].cidade, indice[i].posicao);
             i++;
         }
+
+        qt_registros = i;
         
+        fclose(indices);
     }
 
-    fclose(indices);
-    
-
-    printf("1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
+    printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
     scanf("%d", &i);
     if (i == 1) {
         arquivo = fopen("registros.bin", "wb");
@@ -89,15 +86,16 @@ int main () {
                 printf("Telefone: ");
                 scanf("%[^\n]s", registro.telefone);
                 getchar();
+                registro.chave = i;
 
-                // Escreve registro no arquivo
-                printf("\n-->Numero de itens escritos: %ld\n", 
-                fwrite(&registro, sizeof registro, 1, arquivo));
-                
                 // Salva indices dos registros
                 indice[i].chave = i;
                 indice[i].posicao = ftell(arquivo);
                 strcpy (indice[i].cidade, registro.cidade);
+
+                // Escreve registro no arquivo
+                printf("\n-->Numero de itens escritos: %ld\n", 
+                fwrite(&registro, sizeof registro, 1, arquivo));
             }
             printf("\n\nRegistros salvos com sucesso!\n");
 
@@ -110,7 +108,7 @@ int main () {
                 for (i=0;i<max;i++) {
                     // Escreve registro no arquivo
                     printf("\n-->Numero de itens escritos: %ld\n", 
-                    fwrite(&indice[i], sizeof indice, 1, indices));
+                    fwrite(&indice[i], sizeof indice[i], 1, indices));
                     
                 }
                 printf("\n\nIndices salvos com sucesso!\n");
@@ -119,19 +117,36 @@ int main () {
             fclose(indices);
             
         }
-    } else {
+    } else if(i == 2){
+        arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+        if(arquivo == NULL)
+            perror("Erro ao abrir registros.bin\n");
+        else{
+            // Varredura do arquivo
+            printf("\n");
+            while(fread(&registro, sizeof registro, 1, arquivo) > 0)
+                printf("Chave: %d\n Primeiro nome: %s\n Ultimo nome: %s\n Endereco: %s\n Cidade: %s\n Estado: %s\n CEP: %s\n Telefone: %s\n\n", 
+                registro.chave, registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+        }
+        fclose(registros);
+    } else if(i == 3) {
+        do {
+            printf("\nInsira uma chave valida para o registro desejado: ");
+            scanf("%d", &i);
+        } while (i >= qt_registros);
+
         arquivo = fopen("registros.bin", "rb"); // acesso de leitura
         if(arquivo == NULL)
             perror("Erro ao abrir registros.bin");
         else{
             // Varredura do arquivo
-            while(fread(&registro, sizeof registro, 1, arquivo) > 0)
-                printf("%s %s\n", registro.primeironome, registro.ultimonome);
+            fseek(arquivo, indice[i].posicao, SEEK_SET);
+            fread(&registro, sizeof registro, 1, arquivo);
+            printf("%s %s\n", registro.primeironome, registro.ultimonome);
         }
         fclose(registros);
+
     }
-	
-	
 	
     return 0;
 }
