@@ -35,7 +35,7 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
-    int i=0,max, qt_registros;
+    int i=0,max, qt_registros, limite;
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -44,7 +44,7 @@ int main () {
         perror("Erro ao abrir indices.bin");
     else {
         while (fread(&indice[i], sizeof indice[i], 1, indices) > 0 ){
-            printf("chave: %d\ncidade: %s\nposicao: %d\n\n", indice[i].chave, indice[i].cidade, indice[i].posicao);
+            //printf("chave: %d\ncidade: %s\nposicao: %d\n\n", indice[i].chave, indice[i].cidade, indice[i].posicao);
             i++;
         }
 
@@ -52,6 +52,8 @@ int main () {
         
         fclose(indices);
     }
+
+    printf("\nBem vindo!\nQuantidade de registros recuperados: %d\n\n", qt_registros);
 
     printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
     scanf("%d", &i);
@@ -126,15 +128,27 @@ int main () {
             // Varredura do arquivo
             printf("\n");
             while(fread(&registro, sizeof registro, 1, arquivo) > 0)
-                printf("\nChave: %d\n Primeiro nome: %s\n Ultimo nome: %s\n Endereco: %s\n Cidade: %s\n Estado: %s\n CEP: %s\n Telefone: %s\n\n", 
+                printf("\nChave: %d\nPrimeiro nome: %s\nUltimo nome: %s\nEndereco: %s\nCidade: %s\nEstado: %s\nCEP: %s\nTelefone: %s\n\n", 
                 registro.chave, registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
         }
         fclose(registros);
     } else if(i == 3) {
+        limite = 0;
         do {
             printf("\nInsira uma chave valida para o registro desejado: ");
             scanf("%d", &i);
+
+                if (i >= qt_registros){
+                    printf("\nCHAVE INVALIDA!!!\n");
+                    limite++;
+
+                    if(limite == 3){
+                        //sai do programa
+                    }
+                }
+
         } while (i >= qt_registros);
+
 
         arquivo = fopen("registros.bin", "rb"); // acesso de leitura
         if(arquivo == NULL)
@@ -143,7 +157,7 @@ int main () {
             // Varredura do arquivo
             fseek(arquivo, indice[i].posicao, SEEK_SET);
             fread(&registro, sizeof registro, 1, arquivo);
-            printf("%s %s\n", registro.primeironome, registro.ultimonome);
+            printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n\n", registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
         }
         fclose(registros);
 
