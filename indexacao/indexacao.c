@@ -35,7 +35,11 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
+<<<<<<< HEAD
     int i=0,max;
+=======
+    int i=0,max, qt_registros, limite;
+>>>>>>> parent of bb4f402... Up
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -139,21 +143,50 @@ int main () {
         }
         fclose(registros);
     } else if(i == 3) {
+<<<<<<< HEAD
         do {
             printf("\nInsira uma chave valida para o registro desejado: ");
             scanf("%d", &i);
         } while (i >= qt_registros);
 
 >>>>>>> parent of d91a364... Up
+=======
+        limite = 0;
+        do {
+            printf("\nInsira uma chave valida para o registro desejado: ");
+            scanf("%d", &i);
+
+                if (i >= qt_registros){
+                    printf("\nCHAVE INVALIDA!!!\n");
+                    limite++;
+
+                    if(limite == 3){
+                        //sai do programa
+                    }
+                }
+
+        } while (i >= qt_registros);
+
+
+>>>>>>> parent of bb4f402... Up
         arquivo = fopen("registros.bin", "rb"); // acesso de leitura
         if(arquivo == NULL)
             perror("Erro ao abrir registros.bin");
         else{
             // Varredura do arquivo
+<<<<<<< HEAD
             while(fread(&registro, sizeof registro, 1, arquivo) > 0)
                 printf("%s %s\n", registro.primeironome, registro.ultimonome);
         }
         fclose(registros);
+=======
+            fseek(arquivo, indice[i].posicao, SEEK_SET);
+            fread(&registro, sizeof registro, 1, arquivo);
+            printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n\n", registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+        }
+        fclose(registros);
+
+>>>>>>> parent of bb4f402... Up
     }
 	
 	
