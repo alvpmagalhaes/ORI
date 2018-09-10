@@ -89,6 +89,10 @@ int main () {
                 printf("Telefone: ");
                 scanf("%[^\n]s", registro.telefone);
                 getchar();
+<<<<<<< HEAD
+=======
+                registro.chave = i;
+>>>>>>> parent of d91a364... Up
 
                 // Escreve registro no arquivo
                 printf("\n-->Numero de itens escritos: %ld\n", 
@@ -119,7 +123,28 @@ int main () {
             fclose(indices);
             
         }
+<<<<<<< HEAD
     } else {
+=======
+    } else if(i == 2){
+        arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+        if(arquivo == NULL)
+            perror("Erro ao abrir registros.bin\n");
+        else{
+            // Varredura do arquivo
+            printf("\n");
+            while(fread(&registro, sizeof registro, 1, arquivo) > 0)
+                printf("Chave: %d\n Primeiro nome: %s\n Ultimo nome: %s\n Endereco: %s\n Cidade: %s\n Estado: %s\n CEP: %s\n Telefone: %s\n\n", 
+                registro.chave, registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+        }
+        fclose(registros);
+    } else if(i == 3) {
+        do {
+            printf("\nInsira uma chave valida para o registro desejado: ");
+            scanf("%d", &i);
+        } while (i >= qt_registros);
+
+>>>>>>> parent of d91a364... Up
         arquivo = fopen("registros.bin", "rb"); // acesso de leitura
         if(arquivo == NULL)
             perror("Erro ao abrir registros.bin");
