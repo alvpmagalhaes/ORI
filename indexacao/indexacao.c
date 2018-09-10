@@ -37,6 +37,7 @@ int main () {
     struct ind indice[20];
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     int i=0,max, qt_registros, option, tam, busca_chave;
 =======
     int i=0,max, qt_registros, limite, option;
@@ -44,6 +45,9 @@ int main () {
 =======
     int i=0,max, qt_registros, limite, option;
 >>>>>>> parent of e052790... Up 10/09
+=======
+    int i=0,max, qt_registros, limite;
+>>>>>>> parent of bb4f402... Up
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -151,6 +155,7 @@ int main () {
                     scanf("%[^\n]s", registro.telefone);
                     getchar();
 
+<<<<<<< HEAD
                    registro.chave = i;
 
                     // Salva indices dos registros
@@ -264,6 +269,52 @@ int main () {
                 printf("--> MENU <--\n0) Sair\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
                 scanf("%d", &i);
             }
+=======
+            fclose(indices);
+            
+        }
+    } else if(i == 2){
+        arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+        if(arquivo == NULL)
+            perror("Erro ao abrir registros.bin\n");
+        else{
+            // Varredura do arquivo
+            printf("\n");
+            while(fread(&registro, sizeof registro, 1, arquivo) > 0)
+                printf("\nChave: %d\nPrimeiro nome: %s\nUltimo nome: %s\nEndereco: %s\nCidade: %s\nEstado: %s\nCEP: %s\nTelefone: %s\n\n", 
+                registro.chave, registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+        }
+        fclose(registros);
+    } else if(i == 3) {
+        limite = 0;
+        do {
+            printf("\nInsira uma chave valida para o registro desejado: ");
+            scanf("%d", &i);
+
+                if (i >= qt_registros){
+                    printf("\nCHAVE INVALIDA!!!\n");
+                    limite++;
+
+                    if(limite == 3){
+                        //sai do programa
+                    }
+                }
+
+        } while (i >= qt_registros);
+
+
+        arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+        if(arquivo == NULL)
+            perror("Erro ao abrir registros.bin");
+        else{
+            // Varredura do arquivo
+            fseek(arquivo, indice[i].posicao, SEEK_SET);
+            fread(&registro, sizeof registro, 1, arquivo);
+            printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n\n", registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+        }
+        fclose(registros);
+
+>>>>>>> parent of bb4f402... Up
     }
     return 0;
 }
