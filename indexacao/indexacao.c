@@ -35,7 +35,7 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
-    int i=0,max, qt_registros, limite, option, tam;
+    int i=0,max, qt_registros, option, tam, busca_chave;
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -44,7 +44,6 @@ int main () {
         perror("Erro ao abrir indices.bin");
     else {
         while (fread(&indice[i], sizeof indice[i], 1, indices) > 0 ){
-            //printf("chave: %d\ncidade: %s\nposicao: %d\n\n", indice[i].chave, indice[i].cidade, indice[i].posicao);
             i++;
         }
 
@@ -60,9 +59,11 @@ int main () {
     while(i != 0){
 
         if (i == 1) {
-            arquivo = fopen("registros.bin", "wb");
+
+            arquivo = fopen("registros.bin", "ab");
             if(arquivo == NULL)
                 perror("Erro ao abrir registros.bin");
+                
             else {
                 printf("\nInsira o numero de registro que deseja escrever: ");
                 scanf("%d", &max);
@@ -90,8 +91,8 @@ int main () {
                     printf("Telefone: ");
                     scanf("%[^\n]s", registro.telefone);
                     getchar();
-                    
-                    registro.chave = i;
+
+                   registro.chave = i;
 
                     // Salva indices dos registros
                     indice[i].chave = i;
@@ -140,22 +141,15 @@ int main () {
             scanf("%d", &option);
 
             if(option == 1){
-                limite = 0;
                 do {
                     printf("\nInsira uma chave valida para o registro desejado: ");
-                    scanf("%d", &i);
+                    scanf("%d", &busca_chave);
 
-                        if (i >= qt_registros){
+                        if (i >= busca_chave){
                             printf("\nCHAVE INVALIDA!!!\n");
-                            limite++;
-
-                            if(limite == 3){
-                                //sai do programa
-                            }
                         }
 
-                } while (i >= qt_registros);
-
+                } while (i >= busca_chave);
 
                 arquivo = fopen("registros.bin", "rb"); // acesso de leitura
                 if(arquivo == NULL)
