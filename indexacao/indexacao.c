@@ -36,7 +36,11 @@ int main () {
     struct cur cursor;
     struct ind indice[20];
 <<<<<<< HEAD
+<<<<<<< HEAD
     int i=0,max, qt_registros, option, tam, busca_chave;
+=======
+    int i=0,max, qt_registros, limite, option;
+>>>>>>> parent of e052790... Up 10/09
 =======
     int i=0,max, qt_registros, limite, option;
 >>>>>>> parent of e052790... Up 10/09
@@ -59,6 +63,7 @@ int main () {
 
     printf("\nBem vindo!\nQuantidade de registros recuperados: %d\n\n", qt_registros);
 <<<<<<< HEAD
+<<<<<<< HEAD
     printf("--> MENU <--\n0) Sair\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
     scanf("%d", &i);
 
@@ -67,6 +72,11 @@ int main () {
 
     printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
     scanf("%d", &i);
+=======
+
+    printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
+    scanf("%d", &i);
+>>>>>>> parent of e052790... Up 10/09
     if (i == 1) {
         arquivo = fopen("registros.bin", "wb");
         if(arquivo == NULL)
@@ -189,6 +199,7 @@ int main () {
             printf("\nDigite o tipo de busca desejada:\n1) Chave\n2) Cidade\n");
             scanf("%d", &option);
 
+<<<<<<< HEAD
             if(option == 1){
                 do {
                     printf("\nInsira uma chave valida para o registro desejado: ");
@@ -229,6 +240,11 @@ int main () {
                 }
                 fclose(registros);
                     
+=======
+        } else if (option == 2){
+                printf("\nInsira a cidade desejada: ");
+               // scanf("%s", cidade_desejada);
+>>>>>>> parent of e052790... Up 10/09
 =======
         } else if (option == 2){
                 printf("\nInsira a cidade desejada: ");
