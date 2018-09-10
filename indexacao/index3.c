@@ -37,6 +37,7 @@ int main () {
     struct ind indice[20];
     int i=0,max, regs_indice, option;
     char chave[40];
+    char cidade[40];
 
     //Funcao de verificacao de existencia e quantidade de registros no indice
 
@@ -127,7 +128,8 @@ int main () {
             else{
                 // Varredura do arquivo
                 while(fread(&registro, sizeof registro, 1, arquivo) > 0)
-                    printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                    printf("\n%d\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                    registro.chave,
                     registro.primeironome, 
                     registro.ultimonome,
                     registro.endereco,
@@ -150,8 +152,13 @@ int main () {
                         printf("\nDigite a chave desejada: \n");
                         scanf("%s", chave);
                         fseek(arquivo, sizeof(registro)*(strlen(chave)), SEEK_SET);
+
+                        if(strlen(chave) >= regs_indice){
+                                printf("\nChave inválida\n");
+                        }else {
                         fread(&registro, sizeof registro, 1, arquivo);
-                            printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                            printf("\n%d\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                            registro.chave,
                             registro.primeironome, 
                             registro.ultimonome,
                             registro.endereco,
@@ -159,8 +166,28 @@ int main () {
                             registro.estado,
                             registro.cep,
                             registro.telefone);
+                        }
 
                     }
+                }else if(i == 2){
+                    printf("\nDigite a cidade desejada: \n");
+                        scanf("%s", cidade);
+                        fseek(arquivo, sizeof(registro)*(strlen(cidade)), SEEK_SET);
+
+                        if(strlen(cidade) != registro.cidade){
+                                printf("\nCidade Inválida\n");
+                        }else {
+                                fread(&registro, sizeof registro, 1, arquivo);
+                                printf("\n%d\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                                registro.chave,
+                                registro.primeironome, 
+                                registro.ultimonome,
+                                registro.endereco,
+                                registro.cidade,
+                                registro.estado,
+                                registro.cep,
+                                registro.telefone);
+                        }
                 }
 
         }
