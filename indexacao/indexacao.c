@@ -43,6 +43,7 @@ int main () {
     if(indices == NULL)
         perror("Erro ao abrir indices.bin");
     else {
+        i = 0;
         while (fread(&indice[i], sizeof indice[i], 1, indices) > 0 ){
             i++;
         }
