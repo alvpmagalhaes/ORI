@@ -173,10 +173,6 @@ int main () {
                     printf("\nDigite a cidade desejada: \n");
                         scanf("%s", cidade);
                         fseek(arquivo, sizeof(registro)*(strlen(cidade)), SEEK_SET);
-
-                        if(strlen(cidade) != registro.cidade){
-                                printf("\nCidade Inválida\n");
-                        }else {
                                 fread(&registro, sizeof registro, 1, arquivo);
                                 printf("\n%d\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
                                 registro.chave,
@@ -187,7 +183,7 @@ int main () {
                                 registro.estado,
                                 registro.cep,
                                 registro.telefone);
-                        }
+ 
                 }
 
         }
