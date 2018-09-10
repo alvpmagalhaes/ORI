@@ -14,9 +14,9 @@ struct reg {
     char primeironome[40];
     char endereco[200];
     char cidade[40];
-    char estado[2];
-    char cep[9];
-    char telefone[15];
+    char estado[3];
+    char cep[10];
+    char telefone[20];
 };
 
 struct cur {
@@ -36,6 +36,7 @@ int main () {
     struct cur cursor;
     struct ind indice[20];
     int i=0,max, regs_indice, option;
+    char chave[40];
 
     //Funcao de verificacao de existencia e quantidade de registros no indice
 
@@ -52,7 +53,7 @@ int main () {
 
     fclose(indices);
 
-    printf("\n*********MENU*********\n0)Sair\n1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
+    printf("\n*********MENU*********\n\n0)Sair\n1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
     scanf("%d", &i);
 
         while(i != 0){
@@ -119,15 +120,49 @@ int main () {
                 
             }
         } else if(i == 2) {
+            //Ler todos os registros
             arquivo = fopen("registros.bin", "rb"); // acesso de leitura
             if(arquivo == NULL)
                 perror("Erro ao abrir registros.bin");
             else{
                 // Varredura do arquivo
                 while(fread(&registro, sizeof registro, 1, arquivo) > 0)
-                    printf("%s %s\n", registro.primeironome, registro.ultimonome);
+                    printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                    registro.primeironome, 
+                    registro.ultimonome,
+                    registro.endereco,
+                    registro.cidade,
+                    registro.estado,
+                    registro.cep,
+                    registro.telefone);
             }
             fclose(registros);
+        }else if(i ==3){
+                //Buscar um arquivo
+                printf("\nBusca de Arquivos. Selecione uma opção:\n1)Chave\n2)Cidade\n");
+                scanf("%d", &i);
+
+                if(i == 1){
+                     arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+                    if(arquivo == NULL)
+                    perror("Erro ao abrir registros.bin");
+                    else{
+                        printf("\nDigite a chave desejada: \n");
+                        scanf("%s", chave);
+                        fseek(arquivo, sizeof(registro)*(strlen(chave)), SEEK_SET);
+                        fread(&registro, sizeof registro, 1, arquivo);
+                            printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n", 
+                            registro.primeironome, 
+                            registro.ultimonome,
+                            registro.endereco,
+                            registro.cidade,
+                            registro.estado,
+                            registro.cep,
+                            registro.telefone);
+
+                    }
+                }
+
         }
 
         printf("\nDeseja retornar ao Menu Principal?\n1)Sim\n2)Nao\n");
@@ -135,7 +170,7 @@ int main () {
         if(i == 2){
             i = 0;
         } else {
-            printf("\n*********MENU*********\n0)Sair\n1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
+            printf("\n*********MENU*********\n\n0)Sair\n1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
     scanf("%d", &i);
         }
     }
