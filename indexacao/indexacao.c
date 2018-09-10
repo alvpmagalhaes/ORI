@@ -35,7 +35,11 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
+<<<<<<< HEAD
     int i=0,max, qt_registros, option, tam, busca_chave;
+=======
+    int i=0,max, qt_registros, limite, option;
+>>>>>>> parent of e052790... Up 10/09
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -54,10 +58,54 @@ int main () {
     }
 
     printf("\nBem vindo!\nQuantidade de registros recuperados: %d\n\n", qt_registros);
+<<<<<<< HEAD
     printf("--> MENU <--\n0) Sair\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
     scanf("%d", &i);
 
     while(i != 0){
+=======
+
+    printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
+    scanf("%d", &i);
+    if (i == 1) {
+        arquivo = fopen("registros.bin", "wb");
+        if(arquivo == NULL)
+            perror("Erro ao abrir registros.bin");
+        else {
+            printf("\nInsira o numero de registro que deseja escrever: ");
+            scanf("%d", &max);
+            getchar();
+            for (i=0;i<max;i++) {
+                // Coleta valores dos registros
+                printf("Ultimo nome: ");
+                scanf("%[^\n]s", registro.ultimonome);
+                getchar();
+                printf("Primeiro nome: ");
+                scanf("%[^\n]s", registro.primeironome);
+                getchar();
+                printf("Endereco: ");
+                scanf("%[^\n]s", registro.endereco);
+                getchar();
+                printf("Cidade: ");
+                scanf("%[^\n]s", registro.cidade);
+                getchar();
+                printf("Estado: ");
+                scanf("%[^\n]s", registro.estado);
+                getchar();
+                printf("CEP: ");
+                scanf("%[^\n]s", registro.cep);
+                getchar();
+                printf("Telefone: ");
+                scanf("%[^\n]s", registro.telefone);
+                getchar();
+                
+                registro.chave = i;
+
+                // Salva indices dos registros
+                indice[i].chave = i;
+                indice[i].posicao = ftell(arquivo);
+                strcpy (indice[i].cidade, registro.cidade);
+>>>>>>> parent of e052790... Up 10/09
 
         if (i == 1) {
 
@@ -150,6 +198,7 @@ int main () {
                             printf("\nCHAVE INVALIDA!!!\n");
                         }
 
+<<<<<<< HEAD
                 } while (i >= qt_registros);
 
                 arquivo = fopen("registros.bin", "rb"); // acesso de leitura
@@ -180,6 +229,11 @@ int main () {
                 }
                 fclose(registros);
                     
+=======
+        } else if (option == 2){
+                printf("\nInsira a cidade desejada: ");
+               // scanf("%s", cidade_desejada);
+>>>>>>> parent of e052790... Up 10/09
 
 
             }
