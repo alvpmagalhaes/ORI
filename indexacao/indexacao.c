@@ -36,10 +36,14 @@ int main () {
     struct cur cursor;
     struct ind indice[20];
 <<<<<<< HEAD
+<<<<<<< HEAD
     int i=0,max;
 =======
     int i=0,max, qt_registros, limite;
 >>>>>>> parent of bb4f402... Up
+=======
+    int i=0,max, qt_registros, limite, option;
+>>>>>>> parent of e052790... Up 10/09
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -57,10 +61,16 @@ int main () {
         
     }
 
+<<<<<<< HEAD
     fclose(indices);
     
 
     printf("1) Escrever\n2) Ler todos\n3)Ler um registro\nSelecione uma opcao: ");
+=======
+    printf("\nBem vindo!\nQuantidade de registros recuperados: %d\n\n", qt_registros);
+
+    printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
+>>>>>>> parent of e052790... Up 10/09
     scanf("%d", &i);
     if (i == 1) {
         arquivo = fopen("registros.bin", "wb");
@@ -165,7 +175,27 @@ int main () {
                     }
                 }
 
+<<<<<<< HEAD
         } while (i >= qt_registros);
+=======
+            } while (i >= qt_registros);
+
+
+            arquivo = fopen("registros.bin", "rb"); // acesso de leitura
+            if(arquivo == NULL)
+                perror("Erro ao abrir registros.bin");
+            else{
+                // Varredura do arquivo
+                fseek(arquivo, indice[i].posicao, SEEK_SET);
+                fread(&registro, sizeof registro, 1, arquivo);
+                printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n\n", registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+            }
+            fclose(registros);
+
+        } else if (option == 2){
+                printf("\nInsira a cidade desejada: ");
+               // scanf("%s", cidade_desejada);
+>>>>>>> parent of e052790... Up 10/09
 
 
 >>>>>>> parent of bb4f402... Up
