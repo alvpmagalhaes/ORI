@@ -143,13 +143,13 @@ int main () {
             if(option == 1){
                 do {
                     printf("\nInsira uma chave valida para o registro desejado: ");
-                    scanf("%d", &busca_chave);
+                    scanf("%d", &i);
 
-                        if (i >= busca_chave){
+                        if (i >= qt_registros){
                             printf("\nCHAVE INVALIDA!!!\n");
                         }
 
-                } while (i >= busca_chave);
+                } while (i >= qt_registros);
 
                 arquivo = fopen("registros.bin", "rb"); // acesso de leitura
                 if(arquivo == NULL)
