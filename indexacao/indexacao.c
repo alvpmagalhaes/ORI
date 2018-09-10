@@ -35,7 +35,7 @@ int main () {
     struct reg registro;
     struct cur cursor;
     struct ind indice[20];
-    int i=0,max, qt_registros, limite, option;
+    int i=0,max, qt_registros, limite, option, tam;
 
     //Funcao de verificacao de existencia e quantidade de registros
 
@@ -55,8 +55,10 @@ int main () {
 
     printf("\nBem vindo!\nQuantidade de registros recuperados: %d\n\n", qt_registros);
 
-    printf("--> MENU <--\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
+    printf("--> MENU <--\n0) Sair\n1) Insere\n2) Listar todos\n3) Busca\nSelecione uma opcao: ");
+
     scanf("%d", &i);
+
     if (i == 1) {
         arquivo = fopen("registros.bin", "wb");
         if(arquivo == NULL)
@@ -167,8 +169,22 @@ int main () {
             fclose(registros);
 
         } else if (option == 2){
+                char cidade_desejada[40];
                 printf("\nInsira a cidade desejada: ");
-               // scanf("%s", cidade_desejada);
+                scanf("%s", cidade_desejada);
+
+                arquivo = fopen("registros.bin", "rb");
+                if(arquivo == NULL)
+                perror("Erro ao abrir registros.bin");
+            else{
+                // Varredura do arquivo
+                fseek(arquivo, SEEK_SET, 0);
+                fread(&registro, sizeof registro, 1, arquivo);
+                //comparacao de strings;
+                printf("\n%s %s\n%s\n%s\n%s\n%s\n%s\n\n", registro.primeironome, registro.ultimonome, registro.endereco, registro.cidade, registro.estado, registro.cep, registro.telefone);
+            }
+            fclose(registros);
+                
 
 
         }
