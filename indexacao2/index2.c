@@ -9,7 +9,7 @@ struct reg {
 
 struct ind {
     int posicao;
-    char chave[13];
+    char chave[15];
 };
 
 int main() {
@@ -66,7 +66,7 @@ int main() {
                     fwrite(&aluno, sizeof aluno, 1, arquivo));
                     
                     // Salva indices dos alunos
-                    indicePrimario[i].posicao = ultimo_indice + i;
+                    indicePrimario[i].posicao = i;
                     strcat(indicePrimario[i].chave, aluno.sigla);
                     strcat(indicePrimario[i].chave, aluno.ra);
                 }
@@ -78,11 +78,11 @@ int main() {
                 if(indices == NULL)
                     perror("Erro ao abrir indices.bin");
                 else {
-                    fseek(indices, 1, SEEK_END);
+                    //fseek(indices, 1, SEEK_END);
                     for (i=0;i<max;i++) {
-                        // Escreve registro no arquivo
+                        // Escreve indice primario
                         printf("\n-->Numero de itens escritos: %ld\n", 
-                        fwrite(&indicePrimario[i+ultimo_indice], sizeof (struct ind), 1, indices));
+                        fwrite(&indicePrimario[i], sizeof (struct ind), 1, indices));
                         
                     }
                     printf("\n\nIndices salvos com sucesso!\n");
@@ -94,21 +94,21 @@ int main() {
                 if(indices == NULL)
                     perror("Erro ao abrir indicesSec.bin");
                 else {
-                    for (i=0; i<ultimo_indice; i++) {
+                    for (i=0; i<max; i++) {
                         indiceSec[i] = indicePrimario[i];
                     }
 
-                    for (i=ultimo_indice;i>0;i--) {
+                    for (i=max-1;i>=0;i--) {
                         for (j=0;j<i;j++) {
-                            if(indiceSec[j].chave > indiceSec[j+1].chave) {
-                                aux = indiceSec[i];
+                            if(indiceSec[j].chave < indiceSec[j+1].chave) {
+                                aux = indiceSec[j];
                                 indiceSec[j] = indiceSec[j+1];
                                 indiceSec[j+1] = aux;
                             }
                         }
+                        printf("\n-->Numero de itens escritos: %ld\n", 
+                        fwrite(&indiceSec[i], sizeof (struct ind), 1, indices));
                     }
-                    printf("\n-->Numero de itens escritos: %ld\n", 
-                    fwrite(&indiceSec, sizeof indicesSec, 1, indices));
                     printf("\n\nIndices salvos com sucesso!\n");
                 }
 
@@ -116,17 +116,36 @@ int main() {
                 
             }
         } else if(i == 2) {
+            indices = fopen("indicesSec.bin", "rb");
+            if(indices == NULL)
+                perror("Erro ao abrir indices.bin");
+            else {   
+                // Varredura do arquivo
+                i=0;
+                while(fread(&indiceSec[i], sizeof (struct ind), 1, indices) > 0)
+                    printf("Posicao: %d \nChave: %s\n\n", indiceSec[i].posicao, indiceSec[i].chave);
+                    i++;
+                }
+                fclose(indices);
+
+                printf("\nBem-vindo!\nNúmero total de alunos: %d\n", i);
+
+            fclose(indices);
+
             //Ler todos os registros
             arquivo = fopen("alunos.bin", "rb"); // acesso de leitura
             if(arquivo == NULL)
                 perror("Erro ao abrir alunos.bin");
             else{
                 // Varredura do arquivo
-                while(fread(&aluno, sizeof aluno, 1, arquivo) > 0)
+                for (i=0;i<max;i++) {
+                    fseek(arquivo, sizeof aluno * indiceSec[i].posicao, SEEK_SET);
+                    fread(&aluno, sizeof aluno, 1, arquivo);
                     printf("\nRA: %s \nNome: %s \nSigla: %s\n", 
                     aluno.ra,
                     aluno.nome, 
                     aluno.sigla);
+                };
             }
             fclose(arquivo);
         }
